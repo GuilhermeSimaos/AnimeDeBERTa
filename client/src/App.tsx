@@ -1,74 +1,73 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react';
+import '@fontsource/inter';
 import './App.css'
 import axios from 'axios'
+import Input from '@mui/joy/Input/Input'
+import Button from '@mui/joy/Button/Button';
+import { Typography } from '@mui/joy';
+import { Anime } from './Anime';
+import {AnimeCard} from './AnimeCard';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState(undefined)
+  const [data, setData] = React.useState<Anime[]>(); 
 
   const fetchRespose = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/get_all_animes');
+      const response = await axios.get('http://127.0.0.1:5000/api/get_num_animes/4');
       setData(response.data);
-      console.log(response.data);
+      console.log(JSON.stringify(response.data, null, 2));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  //useEffect(()=>{fetchRespose()},[])
-
-  const AnimeCard = (
-    <div className='card'>
-      <div className='card-title'>
-        <h3>{/*titulo principal */}Anime title</h3>
-        <p>{/*titulo secundario */}other name</p>
-      </div>
-      <div className='card-body'>
-        imagem{/*imagem */}
-      </div>
-      <div className='card-footer'>
-        <input type='button' value="Detalhes"/>
-      </div>
-    </div>
-  )
-
   return (
-    <body>
-      <div className='logo'>
-        <h2>Logo</h2>
-      </div>
-      <div className='site-info'>
-        <p className='site-subinfo'>
-          Esse site é resultado de um TCC com foco em Recuperação de Informação e Transformers
-        </p>
-        <p className='site-instructions'>
-          Encontre o anime pelo título ou tente descrevê-lo
-        </p>
+    <div style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'1rem'
+    }}>
+      <div 
+        style={{
+          display:'flex',
+          flexDirection:'column',
+          gap:'2rem',
+          alignItems:'center'
+        }}
+      >
+        <Typography sx={{fontStyle:'italic', fontSize:'11px'}}>Esse site foi desenvolvido como um projeto de TCC para a disciplina de Sistemas de Informação abordando conhecimentos de RI e Deep Learning</Typography>
+        <Typography sx={{color:'whitesmoke', fontFamily:'monospace'}}>Pesquise pelo anime ou tente descrevê-lo abaixo</Typography>
       </div>
       <div className='searchBar'>
-        <input type="text" className='textInput' width={100} placeholder='Pesquisar por ...'/>
-        <input type="button" className='btnInput' value="Pesquisar" />
+        <Input
+          color="neutral"
+          placeholder="Pesquisar por ..."
+          size="lg"
+          variant="outlined"
+          sx={{
+            width:'40rem',
+            backgroundColor:'transparent',
+            color:'white',
+            border:'1px solid #474747',
+            fontFamily:'monospace',
+          }}
+        />
+        <Button
+          onClick={()=>fetchRespose()}
+          size="lg"
+          variant="solid"
+          color='primary'
+        >
+          Pesquisar
+        </Button>
       </div>
       <div className='anime-catalog'>
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
-        {AnimeCard}
+        {data?.map((animeData,index)=>{
+          console.log(`${animeData.name} | ${animeData.other_name} : ${animeData.image_url}`)
+          return(<AnimeCard animeInfo={animeData} key={index}/>)
+        })}
       </div>
-    </body>
+    </div>
   )
 }
 

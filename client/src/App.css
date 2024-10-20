@@ -19,7 +19,7 @@ body {
 .site-info{
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0px;
   .site-subinfo{
     width: auto;
     font-size: 12px;
@@ -38,8 +38,8 @@ body {
 .searchBar{
   margin-top: 0;
   display: flex;
-  display: row;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
 
   .textInput{
@@ -85,22 +85,3 @@ body {
   margin-top: 3rem;
 }
 
-.card{
-  display: flex;
-  flex-direction: column;
-  width: 225px;
-  height: 315px;
-  border-radius: 1rem;
-  object-fit: contain;
-  background-color: #95adb2;
-  gap: 0px;
-  .card-title{
-
-  }
-  .card-body{
-
-  }
-  .card-footer{
-    
-  }
-}
